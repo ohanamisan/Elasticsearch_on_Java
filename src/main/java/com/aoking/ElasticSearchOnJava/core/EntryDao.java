@@ -32,8 +32,9 @@ public class EntryDao {
             sourceBuilder.from(0);
             sourceBuilder.size(1000);
             sourceBuilder.query(QueryBuilders.boolQuery()
-                            .should(QueryBuilders.matchPhraseQuery("title.full_text_search", word))
-                            .should(QueryBuilders.matchPhraseQuery("body.full_text.search", word)));
+                    .should(QueryBuilders.matchPhraseQuery("title.full_text_search", word))
+                    .should(QueryBuilders.matchPhraseQuery("body.full_text_search", word))
+                    .minimumShouldMatch(1));
 
             SearchRequest req = new SearchRequest().indices(INDEX).source(sourceBuilder);
 
