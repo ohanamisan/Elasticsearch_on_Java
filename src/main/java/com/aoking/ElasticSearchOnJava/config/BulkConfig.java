@@ -62,26 +62,33 @@ public class BulkConfig {
                             .build();
     }
 
+
+    /**
+     * アプリ起動時にQiitaの記事をElasticsearchにインサートします
+     */
     @PostConstruct
     public void initData() {
         try {
-            URL url = new URL("https://qiita.com/api/v2/items?page=2&per_page=100");
+            for (int i = 1; i <= 5; i++) {
 
-            HttpsURLConnection urlconn = (HttpsURLConnection) url.openConnection();
-            urlconn.setRequestMethod("GET");
-            urlconn.setInstanceFollowRedirects(false);
-            urlconn.connect();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(urlconn.getInputStream()));
+                URL url = new URL("https://qiita.com/api/v2/items?page="+i+"&per_page=100");
 
-            List<Entry> entryList = Arrays.asList(jsonMapper.readValue(reader.readLine(), Entry[].class));
-            int count = 0;
-            for (Entry entry : entryList) {
-                Map<String, Entry> map = new HashMap<>();
-                map.put("entry", entry);
-                getBulk().add(new IndexRequest(INDEX, TYPE, entry.getId()).source(map));
+                HttpsURLConnection urlconn = (HttpsURLConnection) url.openConnection();
+                urlconn.setRequestMethod("GET");
+                urlconn.setInstanceFollowRedirects(false);
+                urlconn.connect();
 
+                BufferedReader reader = new BufferedReader(new InputStreamReader(urlconn.getInputStream()));
+                List<Entry> entryList = Arrays.asList(jsonMapper.readValue(reader.readLine(), Entry[].class));
+                for (Entry entry : entryList) {
+                    Map<String, Entry> map = new HashMap<>();
+                    map.put("entry", entry);
+                    getBulk().add(new IndexRequest(INDEX, TYPE, entry.getId()).source(map));
+
+                }
+
+                urlconn.disconnect();
             }
-            urlconn.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
         }
