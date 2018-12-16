@@ -38,8 +38,8 @@ public class EntryDao {
 
             SearchRequest req = new SearchRequest().indices(INDEX).source(sourceBuilder);
 
-            SearchResponse sr = client.search(req, RequestOptions.DEFAULT);
-            hits = sr.getHits();
+            SearchResponse res = client.search(req, RequestOptions.DEFAULT);
+            hits = res.getHits();
         }catch (Exception e){
             e.printStackTrace();
         }
