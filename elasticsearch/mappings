@@ -1,0 +1,35 @@
+PUT qiita/_mappings/entry
+{
+  "properties": {
+    "title": {
+      "type": "text",
+      "fields": {
+        "full_text_search": {
+          "type": "text",
+          "search_analyzer": "bigram_search",
+          "analyzer": "bigram_search"
+        }
+      }
+    },
+    "content":{
+      "type": "text",
+      "fields": {
+        "full_text_search": {
+          "type": "text",
+          "search_analyzer": "bigram_search",
+          "analyzer": "bigram_search"
+        }
+      }
+    },
+    "id": {
+            "type": "text",
+            "index": false,
+            "doc_values":false
+    },
+    "url": {
+            "type": "text",
+            "index": false,
+            "doc_values":false
+    }
+  }
+}
