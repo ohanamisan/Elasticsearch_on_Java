@@ -33,13 +33,4 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.elasticsearch/elasticsearch
 	compile group: 'org.elasticsearch', name: 'elasticsearch', version: '6.5.2'
 	compile 'org.elasticsearch.client:elasticsearch-rest-high-level-client:6.5.2'
-
-	// https://mvnrepository.com/artifact/org.elasticsearch.client/transport
-	compile group: 'org.elasticsearch.client', name: 'transport', version: '6.5.2'
-	
-	// https://mvnrepository.com/artifact/org.elasticsearch/elasticsearch
-//	compile group: 'org.elasticsearch', name: 'elasticsearch', version: '7.0.0-alpha1'
-	// https://mvnrepository.com/artifact/org.elasticsearch.client/transport
-//	compile group: 'org.elasticsearch.client', name: 'transport', version: '7.0.0-alpha1'
-	
 }
