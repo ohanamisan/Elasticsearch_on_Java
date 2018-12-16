@@ -11,7 +11,7 @@ PUT qiita/_mappings/entry
         }
       }
     },
-    "content":{
+    "body":{
       "type": "text",
       "fields": {
         "full_text_search": {
