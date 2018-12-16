@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>全文検索！</title>
+</head>
+<body>
+
+<h1 class="entry">Qiita記事全文検索</h1>
+
+<form class="entry_search" th:action="@{/search}" method="GET" th:object="${entrySearchForm}">
+    <input type="text" th:field="*{word}" />
+    <input type="submit" value="検索" />
+    <span th:if="${#fields.hasErrors('word')}" th:errors="*{word}" style="color: red"></span>
+</form>
+
+
+<div class="result" th:if="${entries}">
+
+    <p class="result_title">検索結果</p>
+    <p class="result_count">ヒット件数：[[${entries.size()}]]</p>
+    <ul class="result_values">
+        <li class="result_value" th:each="entry : ${entries}">
+            <a th:href="@{${entry.url}}" class="result_value__href">[[${entry.title}]]</a>
+        </li>
+    </ul>
+
+</div>
+
+</body>
+</html>
