@@ -1,6 +1,8 @@
 # Elasticsearch_on_Java
 
 ElasticsearchのJavaClientを使った全文検索のサンプルアプリです。
+アプリ起動前に接続先のElasticsearchを起動と以下index, analyzer, mappingの
+設定をしてください。
 
 ### Gradle
 またmavenからはelasticsearch.coreに加えてrestHighLevelClientも引っ張てきます。
