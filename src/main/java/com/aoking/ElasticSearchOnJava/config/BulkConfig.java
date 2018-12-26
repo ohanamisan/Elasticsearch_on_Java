@@ -16,33 +16,29 @@ public class BulkConfig {
      * BulkAPIの基本設定を取得します
      */
     public static BulkProcessor getBulk(RestHighLevelClient client){
-        BulkProcessor.Listener listener = new BulkProcessor.Listener() {
+        return BulkProcessor.builder((request, bulkListener) ->
+                client.bulkAsync(request, RequestOptions.DEFAULT, bulkListener), new BulkProcessor.Listener() {
+
             @Override
-            public void beforeBulk(long executionId, BulkRequest request) {
-                System.out.println("bulkRequest = " + request.numberOfActions());
+            public void beforeBulk(long l, BulkRequest bulkRequest) {
+                System.out.println("bulkRequest = " + bulkRequest.numberOfActions());
             }
 
             @Override
-            public void afterBulk(long executionId, BulkRequest request,
-                                  BulkResponse response) {
-                System.out.println("bulkResponse = " + response.hasFailures() + " " + response.buildFailureMessage());
+            public void afterBulk(long l, BulkRequest bulkRequest, Throwable throwable) {
+                throwable.printStackTrace();
             }
 
             @Override
-            public void afterBulk(long executionId, BulkRequest request,
-                                  Throwable failure) {
-                failure.printStackTrace();
+            public void afterBulk(long l, BulkRequest bulkRequest, BulkResponse bulkResponse) {
+                System.out.println(
+                        "bulkResponse = " + bulkResponse.hasFailures() + " " + bulkResponse.buildFailureMessage());
             }
-        };
-
-        return BulkProcessor.builder(
-                (request, bulkListener) ->
-                        client.bulkAsync(request, RequestOptions.DEFAULT, bulkListener), listener)
-                            .setBulkActions(20)
-                            .setBulkSize(new ByteSizeValue(5, ByteSizeUnit.MB))
-                            .setFlushInterval(TimeValue.timeValueSeconds(5)).setConcurrentRequests(0)
-                            .setBackoffPolicy(BackoffPolicy.exponentialBackoff(TimeValue.timeValueMillis(100), 3))
-                            .build();
+        }).setBulkActions(20)
+          .setBulkSize(new ByteSizeValue(5, ByteSizeUnit.MB))
+          .setFlushInterval(TimeValue.timeValueSeconds(5))
+          .setConcurrentRequests(0)
+          .setBackoffPolicy(BackoffPolicy.exponentialBackoff(TimeValue.timeValueMillis(100), 3))
+          .build();
     }
-
 }
