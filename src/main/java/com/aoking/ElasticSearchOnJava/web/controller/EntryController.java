@@ -1,6 +1,6 @@
 package com.aoking.ElasticSearchOnJava.web.controller;
 
-import com.aoking.ElasticSearchOnJava.service.SearchService;
+import com.aoking.ElasticSearchOnJava.service.EntryService;
 import com.aoking.ElasticSearchOnJava.web.converter.EntryConverter;
 import com.aoking.ElasticSearchOnJava.web.dto.EntryDto;
 import com.aoking.ElasticSearchOnJava.web.form.EntrySearchForm;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class EntryController {
 
     @Autowired
-    SearchService service;
+    EntryService service;
 
     @ModelAttribute
     public EntrySearchForm setUpForm(){

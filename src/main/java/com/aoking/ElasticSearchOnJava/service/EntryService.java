@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class SearchService {
+public class EntryService {
 
     @Autowired
     EntryDao dao;
