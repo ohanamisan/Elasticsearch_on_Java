@@ -16,7 +16,6 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
 group = 'com.aoking'
-version = '0.0.1-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
@@ -31,6 +30,26 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 
 	// https://mvnrepository.com/artifact/org.elasticsearch/elasticsearch
-	compile group: 'org.elasticsearch', name: 'elasticsearch', version: '6.5.2'
-	compile 'org.elasticsearch.client:elasticsearch-rest-high-level-client:6.5.2'
+	compile group: 'org.elasticsearch', name: 'elasticsearch', version: '6.6.1'
+	compile 'org.elasticsearch.client:elasticsearch-rest-high-level-client:6.6.1'
 }
+
+jar {
+	manifest {
+		attributes 'Main-Class': "com.aoking.ElasticSearchOnJava.ElasticSearchOnJavaApplication"
+	}
+	from {
+		configurations.compile.collect {
+			it.isDirectory() ? it : zipTree(it)
+		}
+	}
+}
+
+// buildしたjarファイルを./docker/appにコピー
+task copy(type: Copy){
+	from 'build/libs'
+	into 'docker/app/jar'
+	include '*.jar'
+}
+
+build.dependsOn copy

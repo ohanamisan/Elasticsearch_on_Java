@@ -31,4 +31,12 @@ public class Entry {
      */
     private String url;
 
+    @Override
+    public String toString(){
+        return  "id: "    + this.id +
+                "title: " + this.title +
+                "body: "  + this.body.substring(0,20) + "..." +
+                "url: "   + this.url;
+    }
+
 }

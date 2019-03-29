@@ -1,6 +1,7 @@
-package com.aoking.ElasticSearchOnJava.core;
+package com.aoking.ElasticSearchOnJava.core.impl;
 
 import com.aoking.ElasticSearchOnJava.config.ClientConfig;
+import com.aoking.ElasticSearchOnJava.core.EntryCore;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -17,7 +18,7 @@ import java.util.Optional;
  */
 
 @Component
-public class EntryDao {
+public class EntryCoreImpl implements EntryCore {
 
     private final String INDEX = "qiita";
 

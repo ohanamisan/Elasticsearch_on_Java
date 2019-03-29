@@ -1,8 +1,7 @@
 package com.aoking.ElasticSearchOnJava.web.controller;
 
-import com.aoking.ElasticSearchOnJava.service.SearchService;
-import com.aoking.ElasticSearchOnJava.web.converter.EntryConverter;
 import com.aoking.ElasticSearchOnJava.web.dto.EntryDto;
+import com.aoking.ElasticSearchOnJava.web.facade.EntryFacade;
 import com.aoking.ElasticSearchOnJava.web.form.EntrySearchForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,13 +12,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 public class EntryController {
 
     @Autowired
-    SearchService service;
+    EntryFacade facade;
 
     @ModelAttribute
     public EntrySearchForm setUpForm(){
@@ -36,10 +34,7 @@ public class EntryController {
         if(rs.hasErrors()){
             return "home";
         }
-        List<EntryDto> list = service.fullTextSearch(form.getWord())
-                                     .stream()
-                                     .map(entry -> EntryConverter.convert(entry))
-                                     .collect(Collectors.toList());
+        List<EntryDto> list = facade.fullTextSearch(form.getWord());
         model.addAttribute("entries", list);
         return "home";
     }

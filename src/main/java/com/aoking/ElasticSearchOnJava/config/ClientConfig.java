@@ -11,7 +11,7 @@ public class ClientConfig {
      */
     public static RestHighLevelClient connectRest(){
         return new RestHighLevelClient(
-                RestClient.builder(new HttpHost("localhost", 9200, "http")));
+                RestClient.builder(new HttpHost("elasticsearch", 9200, "http")));
     }
 
 }
