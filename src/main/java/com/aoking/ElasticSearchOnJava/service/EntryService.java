@@ -9,6 +9,6 @@ public interface EntryService {
     /**
      * 全文検索
      */
-    public List<Entry> fullTextSearch(String word);
+    List<Entry> fullTextSearch(String word);
 
 }
