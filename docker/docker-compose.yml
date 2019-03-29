@@ -1,0 +1,28 @@
+version: '3'
+services:
+  elasticsearch:
+    image: es-java-sample:latest
+    container_name: es-java-sample
+    environment:
+      - cluster.name=docker-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    ports:
+      - 9200:9200
+
+  app:
+    image: es-java-sample-app:latest
+    container_name: es-java-sample-app
+    ports:
+      - 8080:8080
+    depends_on:
+      - elasticsearch
+volumes:
+  esdata:
+    driver: local
