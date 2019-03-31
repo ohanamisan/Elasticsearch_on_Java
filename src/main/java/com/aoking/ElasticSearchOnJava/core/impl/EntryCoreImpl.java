@@ -22,17 +22,20 @@ public class EntryCoreImpl implements EntryCore {
 
     private final String INDEX = "qiita";
 
+    private final String[] include = {"title","url"};
+
+    private final String[] exclude = {"id","body","tags"};
+
     /**
      * RestHighLevelClientを使った検索
      */
-    public Optional<SearchHits> fullTextSearch(String word){
+    public Optional<SearchHits> fullTextSearch(String word, int display){
         SearchHits hits = null;
         try(RestHighLevelClient client = ClientConfig.connectRest()){
 
             SearchSourceBuilder sourceBuilder = new SearchSourceBuilder();
-            sourceBuilder.from(0);
-            sourceBuilder.size(1000);
-            sourceBuilder.query(QueryBuilders.boolQuery()
+            sourceBuilder.from(0).size(display).fetchSource(include,exclude)
+                    .query(QueryBuilders.boolQuery()
                     .should(QueryBuilders.matchPhraseQuery("title.full_text_search", word))
                     .should(QueryBuilders.matchPhraseQuery("body.full_text_search", word))
                     .minimumShouldMatch(1));

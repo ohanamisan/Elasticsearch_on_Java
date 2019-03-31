@@ -3,6 +3,9 @@ package com.aoking.ElasticSearchOnJava.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * Qiitaの記事のエントリー
  */
@@ -31,12 +34,23 @@ public class Entry {
      */
     private String url;
 
-    @Override
-    public String toString(){
-        return  "id: "    + this.id +
-                "title: " + this.title +
-                "body: "  + this.body.substring(0,20) + "..." +
-                "url: "   + this.url;
+    /**
+     * 記事のタグ
+     */
+    private List<Tag> tags;
+
+    /**
+     * tagsのname一覧を取得します
+     */
+    public List<String> getTagNames(){
+        return tags.stream().map(Tag::getName).collect(Collectors.toList());
     }
 
+    @Override
+    public String toString(){
+        return  "id: "    + this.id + "\n" +
+                "title: " + this.title + "\n" +
+                "body: "  + this.body.substring(0,20) + "..." + "\n" +
+                "url: "   + this.url;
+    }
 }

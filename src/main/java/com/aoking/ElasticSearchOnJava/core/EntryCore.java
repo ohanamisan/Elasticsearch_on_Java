@@ -9,6 +9,6 @@ public interface EntryCore {
     /**
      * RestHighLevelClientを使った検索
      */
-    Optional<SearchHits> fullTextSearch(String word);
+    Optional<SearchHits> fullTextSearch(String word, int display);
 
 }

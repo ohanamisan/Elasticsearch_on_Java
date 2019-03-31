@@ -5,6 +5,7 @@ docker-compose down
 # create docker new image
 docker build --no-cache=true -t es-java-sample:latest ./elasticsearch
 docker build --no-cache=true -t es-java-sample-app:latest ./app
+docker build --no-cache=true -t es-java-sample-kibana:latest ./kibana
 
 # delete data volume
 docker volume rm docker_esdata
@@ -13,7 +14,7 @@ docker volume rm docker_esdata
 docker-compose up -d
 
 # wait for elasticsearch run
-sleep 30
+sleep 60
 
 # elasticsearch prepare
 curl -XPUT "http://localhost:9200/qiita" -H 'Content-Type: application/json' -d'
@@ -103,12 +104,16 @@ curl -XPUT "http://localhost:9200/qiita/_mappings/entry" -H 'Content-Type: appli
             "type": "text",
             "index": false,
             "doc_values":false
+    },
+    "tags": {
+            "type": "text",
+            "index": false
     }
   }
 }
 '
 
-curl localhost:8080/init
+curl localhost:8081/init
 
 # delete docker none image
 docker image rm $(docker image ls  --filter "dangling=true" -aq)

@@ -51,6 +51,7 @@ public class InitController {
                     map.put("title", entry.getTitle());
                     map.put("body", entry.getBody());
                     map.put("url", entry.getUrl());
+                    map.put("tags", entry.getTagNames());
                     bulk.add(new IndexRequest(INDEX, TYPE, entry.getId()).source(map));
                 }
 

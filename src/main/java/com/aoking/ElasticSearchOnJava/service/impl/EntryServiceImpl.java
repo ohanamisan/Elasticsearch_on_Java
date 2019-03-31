@@ -35,14 +35,20 @@ public class EntryServiceImpl implements EntryService {
     /**
      * 全文検索
      */
-    public List<Entry> fullTextSearch(String word){
+    @Override
+    public List<Entry> fullTextSearch(String word, int display){
         List<Entry> list = new ArrayList<Entry>();
-        entryCore.fullTextSearch(word).ifPresent(hits -> {
-           for(SearchHit hit: hits.getHits()) {
+        entryCore.fullTextSearch(word, display).ifPresent(hits -> {
+            for(SearchHit hit: hits.getHits()) {
                list.add(extractValue(hit));
            }
         });
         return list;
+    }
+
+    @Override
+    public long fullTextSearchCount(String word, int display) {
+        return entryCore.fullTextSearch(word, display).get().getTotalHits();
     }
 
 

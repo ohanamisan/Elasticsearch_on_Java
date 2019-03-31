@@ -30,12 +30,13 @@ public class EntryController {
     }
 
     @RequestMapping(value = "/search")
-    public String search(Model model, @Validated EntrySearchForm form,  BindingResult rs) {
+    public String search(Model model, @Validated EntrySearchForm form, BindingResult rs) {
         if(rs.hasErrors()){
             return "home";
         }
-        List<EntryDto> list = facade.fullTextSearch(form.getWord());
+        List<EntryDto> list = facade.fullTextSearch(form);
         model.addAttribute("entries", list);
+        model.addAttribute("count", facade.fullTextSearchCount(form));
         return "home";
     }
 

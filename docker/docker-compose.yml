@@ -16,11 +16,31 @@ services:
     ports:
       - 9200:9200
 
+  kibana:
+    image: es-java-sample-kibana:latest
+    container_name: es-java-sample-kibana
+    ports:
+      - 5601:5601
+
+  mysql:
+    image: mysql:5.7
+    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
+    ports:
+      - 3307:3306
+    volumes:
+      - ./db/mysql_init:/docker-entrypoint-initdb.d
+      - ./db/mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: qiita
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: mysql
+      MYSQL_PASSWORD: mysql
+
   app:
     image: es-java-sample-app:latest
     container_name: es-java-sample-app
     ports:
-      - 8080:8080
+      - 8081:8080
     depends_on:
       - elasticsearch
 volumes:
